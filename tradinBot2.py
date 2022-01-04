@@ -18,6 +18,10 @@ file_handler.setLevel(logging.DEBUG)
 logger.addHandler(stream_handler)
 logger.addHandler(file_handler)
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 67f90583513f4d25a974577a7771dded7c6454e5
 
 
 
