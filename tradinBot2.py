@@ -22,15 +22,25 @@ logger.addHandler(file_handler)
 
 
 
-logger.debug
-logger.info 
-logger.warnig
-logger.error
 
+if _ _name_ _ == '_ _main_ _':
+      
+      bitmex_contracts = get_contracts()
+      
 
-
-
-
-if __name__ == '__main__':
   root = tk.Tk()
+
+   i = 0 
+   j = 0
+
+  for contract in bitmex_contracts:
+        label_widget = tk.Label(root, text=contract, borderwidth=1, relief=tk.SOLID)
+        label_widget.grid(row=i, column=j)
+
+        if i == 4:
+              j += 1
+              i = 0
+
+        else:
+            i += 1 
   root.mainloop()
