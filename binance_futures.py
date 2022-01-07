@@ -1,41 +1,39 @@
 import logging
 import requests
-import pprint
+
 
 
 logger = logging.getLogger()
 
-<<<<<<< HEAD
-"https://testnet.binancefuture.com"
-"wss://fstream.binance.com"
 
+class BinanceFuturesClient:
+    def __init__(self, testnet):
+        if testnet:
+            self.base_url = "https://testnet.binancefuture.com"
+        else:
+            self.base_url = "https://fapi.binance.com"
+                logger.info("Binance Futures Client successfully initialized")
+    def make_request(self, method, endpoint, data):
+        if method == "GET":
+            response = requests.get(self.base_url + endpoint, params=data)
+        else:
+            raise ValueError()   
 
-def get_contracts():
-    response_object = requests.get("https://fapi.binance.com/fapi/v1/exchangeInfo")
-    
-    
-    contracts = []
-    
-    
-    
-    for contract in response_object.json()['symbols']:
-        contracts.append(contract['pair'])
+        if response.status_code == 200:
+            return response.json()
+        else:
+            logger.error("Error while making %s request to %s: %s (error code %s)", request, method), 
+            method, endpoint, response.json(), response.status_code)                     
 
-    return contracts    
+    def get_contracts(self):
+        request.get()
+        return           
 
+    def get_historical_candels(self):
+        request.get()
+        return
 
-    
+    def get_bid_ask(self):
+        request.get()
+        return
 
-
-
-
-print(get_contracts())
-=======
-
-def get_contracts():
-    response_object = requests.get("https://fapi.binance.com")
-    print(response_object.status_code, response_object.json())
-    pprint.pprint(response_object.json())
-
-    get_contracts()
->>>>>>> 67f90583513f4d25a974577a7771dded7c6454e5

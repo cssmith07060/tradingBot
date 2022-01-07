@@ -18,28 +18,27 @@ file_handler.setLevel(logging.DEBUG)
 logger.addHandler(stream_handler)
 logger.addHandler(file_handler)
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 67f90583513f4d25a974577a7771dded7c6454e5
 
 
 
 
 
-if _ _name_ _ == '_ _main_ _':
+if __name__ == '__main__':
       
       bitmex_contracts = get_contracts()
       
 
   root = tk.Tk()
+  root.configure(bg="gray12")
 
    i = 0 
    j = 0
 
+   calbri_font = ("calibri", 11, "normal")
+
   for contract in bitmex_contracts:
-        label_widget = tk.Label(root, text=contract, borderwidth=1, relief=tk.SOLID)
-        label_widget.grid(row=i, column=j)
+        label_widget = tk.Label(root, text=contract, borderwidth=1, relief=tk.SOLID, width=13, font= calibri_font)
+        label_widget.grid(row=i, column=j, sticky=)
 
         if i == 4:
               j += 1
