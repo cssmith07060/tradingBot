@@ -30,10 +30,7 @@ if __name__ == '__main__':
     binance = BinanceFuturesClient("Oy2a4bZp9hWv8BCYyqmxQZVuXkzwQxSrELCGps63AMM6LzFzJEMmJc6BmUaEhpj6",
                                    "kwdzyjzN6KDjShrxdpA61f3zQt6TauMyaUdYYsV20H8dU9YdvsgG9TSXpurkYHeU", True)
                               
-    print(binance.get_balances())
-    print(binance.place_order("BTCUSDT", "BUY" , 0.01, "LIMIT", 20000, "GTC"))
-    print(binance.get_order_status("BTCUSDT", 2612334776))
-    print(binance.cancel_order("BTCUSDT", 2612334776))
+   
 
 
 root = tk.Tk()
