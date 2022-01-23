@@ -8,6 +8,7 @@ import hashlib
 
 import websocket
 
+import threading
 
 
 
@@ -29,6 +30,15 @@ class BinanceFuturesClient:
             self.headers = {'X-MBX-APIKEY': self.public_key}
 
             self.prices = dict()
+
+            t = threading.Thread(target=self.start_ws)
+            t.start()
+            
+            self.start_ws()
+            
+            self.secret_key = secret_key
+
+
 
             logger.info("Binance Futures Client successfully initialized")
 
@@ -154,10 +164,26 @@ def get_order_status(self, symbol, order_id):
 
 
 def start_ws(self):
-    ws = websocket.WebsocketApp(self.wss.url, on_openself.on_open)
+    ws = websocket.WebsocketApp(self.wss.url, on_openself.on_open=self.onclose, on_error=self.error)
      return
 
+     ws.run_forever(sslopt={"cert_reqs": ssl.CERT_NONE})
 
 
- def on_open(self):
+ def on_open(self, ws):
      logger.info("Binance connection opened")    
+
+
+ def on_close(self):
+     logger.warning('Binance Websocket connection closed') 
+
+
+ def on_error(self, msg):
+     logger.error("Binance connection error: %", msg)   
+
+
+ def on_message(self, msg):
+     print(msg)       
+
+
+ def subscribe(self, symbol)    
