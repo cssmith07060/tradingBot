@@ -10,12 +10,11 @@ import websocket
 import  json
 
 import threading
-import ssl
 
-
+from models import *
 
 logger = logging.getLogger()
-import ssl
+
 
 
 class BinanceFuturesClient:
@@ -31,6 +30,9 @@ class BinanceFuturesClient:
             self.secret_key = secret_key
 
             self.headers = {'X-MBX-APIKEY': self.public_key}
+
+            self.contracts = self.get_contracts()
+            self.balances = self.get_balances()
 
             self.prices = dict()
             self.id = 1
@@ -64,8 +66,9 @@ class BinanceFuturesClient:
         if response.status_code == 200:
             return response.json()
         else:
-            logger.error("Error while making %s request to %s: %s (error code %s)", request, method), 
-            method, endpoint, response.json(), response.status_code)   
+            logger.error("Error while making %s request to %s: %s (error code %s)", request, method), method, endpoint, response.json(), response.status_code)   
+ 
+          
 
             return None                   
 
@@ -74,7 +77,9 @@ class BinanceFuturesClient:
 
         if exchange_info is not None:
             for contract_data in exchange_info['symbols']:
-                contracts[contract_data['pair']] = contract_data
+                contracts[contract_data['pair']] = Contract(contract_data)
+
+        contracts['BTCUSDT']        
         return contracts          
 
     def get_historical_candels(self):
@@ -88,10 +93,11 @@ class BinanceFuturesClient:
         candles = []
         if raw_candles is not None:
             for c in raw_candles:
-                candles.append([c[0], float(c[1]), float(c[2]), float(c[c3]), float(c[4]), float(c[5]) )
+                candles.append(Candles(c))
+
 
        
-        return
+        return candles
 
     def get_bid_ask(self, symbol):
         data = dict()
@@ -120,7 +126,10 @@ class BinanceFuturesClient:
 
      if account_data is not None:
          for a in account_data['assests']:
-             balances[a['asset']] = a
+             balances[a['asset']] = Balance(a)
+
+    
+
      return balances
 
 def place_order(self, symbol, side, quantity, order_type, price=None, tif=None):
