@@ -29,6 +29,8 @@ class Contract:
 class OrderStatus:
     def __init__(self, order_info):
         self.order_id = info['orderId']
+        self.status = order_info['status']
+        self.avg_price =float(order_info['avgPrice'])
 
 
 

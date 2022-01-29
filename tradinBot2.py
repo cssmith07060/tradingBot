@@ -29,6 +29,9 @@ if __name__ == '__main__':
     
     binance = BinanceFuturesClient("Oy2a4bZp9hWv8BCYyqmxQZVuXkzwQxSrELCGps63AMM6LzFzJEMmJc6BmUaEhpj6",
                                    "kwdzyjzN6KDjShrxdpA61f3zQt6TauMyaUdYYsV20H8dU9YdvsgG9TSXpurkYHeU", True)
+
+    candles = binance.get_historical_candles()
+    candles[-1].                               
                               
    
 
