@@ -81,7 +81,7 @@ class BinanceFuturesClient:
             for contract_data in exchange_info['symbols']:
                 contracts[contract_data['pair']] = Contract(contract_data)
 
-        contracts['BTCUSDT']        
+                
         return contracts          
 
     def get_historical_candels(self, contract: Contract, interval: str) -> typing.List[Candle]:
@@ -151,7 +151,10 @@ def place_order(self, contrat: Contract, side: str, quantity: float, order_type:
     data['signature'] = self.generate_signature(data)
     
     
-    order_status = self.make_request("POST", "/fapi/v1/order", data)       
+    order_status = self.make_request("POST", "/fapi/v1/order", data)  
+
+    if order_status is not None:
+        order_status = OrderStatus(order_status)     
      return order_status
 
 def cancel_order(self, contract: Contract, orderId: int) -> OrederStatus:
