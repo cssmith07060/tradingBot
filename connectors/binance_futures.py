@@ -57,11 +57,26 @@ class BinanceFuturesClient:
     
     def make_request(self, method: str, endpoint: str, data: typing.Dict):
         if method == "GET":
-            response = requests.get(self.base_url + endpoint, params=data, headers=self.headers)
+            try:
+                response = requests.get(self.base_url + endpoint, params=data, headers=self.headers)
+            except Exeception as e:
+                logger.error("Connection error while making % request to %: %", method, endpoint, e) 
+                return None   
         elif method == "POST":
-            response = requests.post(self.base_url + endpoint, params=data, headers=self.headers)
+            try:
+                response = requests.post(self.base_url + endpoint, params=data, headers=self.headers)
+            except Exception as e:
+                logger.error("Connection error while making % request to %: %", method, endpoint, e)
+                return None 
+                 
         elif method == "DELETE":
-            response = requests.delete(self.base_url + endpoint, params=data, headers=self.headers)        
+            try:
+                response = requests.delete(self.base_url + endpoint, params=data, headers=self.headers)
+            Except Exception as e: 
+            logger.error("Connection error while making % request to %: %", method, endpoint, e)
+            return None  
+
+             
         else:
             raise ValueError()   
 
@@ -101,7 +116,7 @@ class BinanceFuturesClient:
        
         return candles
 
-    def get_bid_ask(self, contract: Contract):
+    def get_bid_ask(self, contract: Contract) -> typing.Dict[str, float]:
         data = dict()
         data['symbol'] = contract.symbol
         ob_data = self.make_request("GET", "/fapi/v1/ticker/bookTicker", data) 
@@ -134,7 +149,7 @@ class BinanceFuturesClient:
 
      return balances
 
-def place_order(self, contrat: Contract, side: str, quantity: float, order_type: str, price=None, tif=None) -> OrederStatus:
+def place_order(self, contrat: Contract, side: str, quantity: float, order_type: str, price=None, tif=None) -> OrderStatus:
     data = ditc()
     data['symbol'] = cotract.symbol
     data['side'] = side 
@@ -157,7 +172,7 @@ def place_order(self, contrat: Contract, side: str, quantity: float, order_type:
         order_status = OrderStatus(order_status)     
      return order_status
 
-def cancel_order(self, contract: Contract, orderId: int) -> OrederStatus:
+def cancel_order(self, contract: Contract, orderId: int) -> OrderStatus:
 
     data = dict()
     data['orderId'] = order_id
@@ -174,7 +189,7 @@ def cancel_order(self, contract: Contract, orderId: int) -> OrederStatus:
     return order_status
 
 
-def get_order_status(self, contract: Contract, order_id: int) -> OrederStatus:
+def get_order_status(self, contract: Contract, order_id: int) -> OrderStatus:
 
    data = dict()
    data ['timestamp'] = int(time.time() * 1000)
@@ -212,7 +227,7 @@ def start_ws(self):
 
 
  def on_message(self, msg: str):
-     print(msg)
+     
 
      data = json.loads(msg)
      if "e" in data:
