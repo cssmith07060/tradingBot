@@ -37,7 +37,7 @@ class BinanceFuturesClient:
             self.balances = self.get_balances()
 
             self.prices = dict()
-            self.id = 1
+            self.ws_id = 1
             self.ws = None
 
             t = threading.Thread(target=self.start_ws)
@@ -51,11 +51,11 @@ class BinanceFuturesClient:
 
             logger.info("Binance Futures Client successfully initialized")
 
-    def generate_signature(self, data: typing.Dict -> str):
+    def _generate_signature(self, data: typing.Dict -> str):
         return hmac.new(self.secret_key.encode(), urlencode(data).encode(), hashlib.sha256).hexdigest()        
     
     
-    def make_request(self, method: str, endpoint: str, data: typing.Dict):
+    def _make_request(self, method: str, endpoint: str, data: typing.Dict):
         if method == "GET":
             try:
                 response = requests.get(self.base_url + endpoint, params=data, headers=self.headers)
@@ -149,7 +149,7 @@ class BinanceFuturesClient:
 
      return balances
 
-def place_order(self, contrat: Contract, side: str, quantity: float, order_type: str, price=None, tif=None) -> OrderStatus:
+def _place_order(self, contrat: Contract, side: str, quantity: float, order_type: str, price=None, tif=None) -> OrderStatus:
     data = ditc()
     data['symbol'] = cotract.symbol
     data['side'] = side 
@@ -209,13 +209,18 @@ def get_order_status(self, contract: Contract, order_id: int) -> OrderStatus:
 def start_ws(self):
     self.ws = websocket.WebsocketApp(self.wss.url, on_open=self.on_open, on_close=self.onclose, on_error=self.error,
                                    on_message=self.onmessage)
-     
-
-    self.ws.run_forever(sslopt={"cert_reqs": ssl.CERT_NONE})
+     while True:
+         try:
+             self.ws.run_forever()
+         except Exception as e:
+             logger.error("Binance error in run_forever() method: %s",e)
+         time.sleep(2)       
 
 
  def on_open(self, ws):
-     logger.info("Binance connection opened")    
+     logger.info("Binance connection opened")
+
+     self.subscribe_channel("BTCUSDT")    
 
 
  def on_close(self):
@@ -255,10 +260,14 @@ def start_ws(self):
      data['method'] = "SUBSCRIBE"
      data['params'] = []
      data['params'] = ['params'].append(contract.symbol.Lower() + "@bookTicker")
-     data['id'] = self.id
+     data['id'] = self.ws_id
 
   
+    try:
+        self.ws.send(json.dumps(data))
+    except Exception as e:
+         logger.error("Websocket error while subscribing %to %: %", contract.symbol, e)
+                
+        
 
-     self..ws.send(json.dumps(data))
-
-     self.id += 1
+     self.ws_id += 1
