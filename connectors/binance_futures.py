@@ -269,7 +269,7 @@ def start_ws(self):
     try:
         self.ws.send(json.dumps(data))
     except Exception as e:
-         logger.error("Websocket error while subscribing %to %: %", contract.symbol, e)
+         logger.error("Websocket error while subscribing %to %s updates: %s", len(contacts), channel, e)
                 
         
 

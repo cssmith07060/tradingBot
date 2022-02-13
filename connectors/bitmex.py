@@ -1,12 +1,14 @@
+import logging
 import requests
+import time
+import typing
 
-def get_contracts():
-    contracts = []
+from urlib.parse import urlencode
 
-    response_object = requests.get("https://ww.bitmex.com/api/v1/instrument/active")
+import hmac
+import hashlib
 
-    for contract in response_object.json():
-        contracts.append.(contract['symbol'])
-    
-    
-    return contracts
+import websocket
+import json
+
+import threading
