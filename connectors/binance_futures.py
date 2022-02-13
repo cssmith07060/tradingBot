@@ -22,25 +22,25 @@ logger = logging.getLogger()
 class BinanceFuturesClient:
     def __init__(self, public_key: str, secret_key: str, testnet: bool):
         if testnet:
-            self.base_url = "https://testnet.binancefuture.com"
-            self.wss_url = "wss://stream.binancefuture.com/ws"
+            self._base_url = "https://testnet.binancefuture.com"
+            self._wss_url = "wss://stream.binancefuture.com/ws"
         else:
-            self.base_url = "https://fapi.binance.com"
-            self.wss_url = "wss://fstream.binance.com/ws"
+            self._base_url = "https://fapi.binance.com"
+            self._wss_url = "wss://fstream.binance.com/ws"
 
-            self.public_key = public_key
-            self.secret_key = secret_key
+            self._public_key = public_key
+            self._secret_key = secret_key
 
-            self.headers = {'X-MBX-APIKEY': self.public_key}
+            self._headers = {'X-MBX-APIKEY': self._public_key}
 
             self.contracts = self.get_contracts()
             self.balances = self.get_balances()
 
             self.prices = dict()
-            self.ws_id = 1
-            self.ws = None
+            self._ws_id = 1
+            self._ws = None
 
-            t = threading.Thread(target=self.start_ws)
+            t = threading.Thread(target=self._start_ws)
             t.start()
             
             self.start_ws()
@@ -58,13 +58,13 @@ class BinanceFuturesClient:
     def _make_request(self, method: str, endpoint: str, data: typing.Dict):
         if method == "GET":
             try:
-                response = requests.get(self.base_url + endpoint, params=data, headers=self.headers)
+                response = requests.get(self._base_url + endpoint, params=data, headers=self._headers)
             except Exeception as e:
                 logger.error("Connection error while making % request to %: %", method, endpoint, e) 
                 return None   
         elif method == "POST":
             try:
-                response = requests.post(self.base_url + endpoint, params=data, headers=self.headers)
+                response = requests.post(self._base_url + endpoint, params=data, headers=self._headers)
             except Exception as e:
                 logger.error("Connection error while making % request to %: %", method, endpoint, e)
                 return None 
@@ -105,7 +105,7 @@ class BinanceFuturesClient:
         data['interval'] = interval
         data['limit'] = 1000
 
-        raw_candles = self.make_request("GET", "/fapi/v1/klines", data)
+        raw_candles = self._make_request("GET", "/fapi/v1/klines", data)
         
         candles = []
         if raw_candles is not None:
@@ -135,11 +135,11 @@ class BinanceFuturesClient:
  def get_balances(self) -> typing.Dict[str, Balance]:
      data = dict()
      data ['timestamp'] = int(time.time() * 1000)
-     data['signature'] = self.generate_signature(data)
+     data['signature'] = self._generate_signature(data)
 
      balance = dict()
 
-     account_data = self.make_request("GET", "/fapi/v1/account", data)
+     account_data = self._make_request("GET", "/fapi/v1/account", data)
 
      if account_data is not None:
          for a in account_data['assests']:
@@ -163,10 +163,10 @@ def _place_order(self, contrat: Contract, side: str, quantity: float, order_type
         data['timeInForce'] = tif
 
     data['timestamp'] = int(time.time() * 1000) 
-    data['signature'] = self.generate_signature(data)
+    data['signature'] = self._generate_signature(data)
     
     
-    order_status = self.make_request("POST", "/fapi/v1/order", data)  
+    order_status = self._make_request("POST", "/fapi/v1/order", data)  
 
     if order_status is not None:
         order_status = OrderStatus(order_status)     
@@ -179,8 +179,8 @@ def cancel_order(self, contract: Contract, orderId: int) -> OrderStatus:
     data['symbol'] = contract.symbol
 
     data['timestamp'] = int(time.time() * 1000) 
-    data['signature'] = self.generate_signature(data)
-    order_status = self.make_request("DELETE", "/fapi/v1/order", data)
+    data['signature'] = self._generate_signature(data)
+    order_status = self._make_request("DELETE", "/fapi/v1/order", data)
 
     
     if  order_status is not None:
@@ -195,9 +195,9 @@ def get_order_status(self, contract: Contract, order_id: int) -> OrderStatus:
    data ['timestamp'] = int(time.time() * 1000)
    data['symbol'] = contract.symbol
    data['orderId'] = order_id
-   data['signature'] = self.generate_signature(data)
+   data['signature'] = self._generate_signature(data)
 
-   order_status = self.make_request("GET", "/fapi/v1/order", data)
+   order_status = self._make_request("GET", "/fapi/v1/order", data)
 
    if  order_status is not None:
         order_status = OrderStatus(order_status) 
@@ -207,8 +207,9 @@ def get_order_status(self, contract: Contract, order_id: int) -> OrderStatus:
 
 
 def start_ws(self):
-    self.ws = websocket.WebsocketApp(self.wss.url, on_open=self.on_open, on_close=self.onclose, on_error=self.error,
-                                   on_message=self.onmessage)
+    self.ws = websocket.WebsocketApp(self._wss.url, on_open=self.on_open, on_close=self._onclose, 
+                                 on_error=self._on_error,on_message=self._on_message)
+                                
      while True:
          try:
              self.ws.run_forever()
@@ -220,7 +221,7 @@ def start_ws(self):
  def on_open(self, ws):
      logger.info("Binance connection opened")
 
-     self.subscribe_channel("BTCUSDT")    
+     self.subscribe_channel(list(self.contracts.values()), "bookTicker")     
 
 
  def on_close(self):
@@ -255,12 +256,14 @@ def start_ws(self):
                
 
 
- def subscribe_channel(self, contract: Contract):
+ def subscribe_channel(self, contracts: typing.List[Contract], channel: str):
      data= dict()    
      data['method'] = "SUBSCRIBE"
      data['params'] = []
-     data['params'] = ['params'].append(contract.symbol.Lower() + "@bookTicker")
-     data['id'] = self.ws_id
+
+     for contract in contract:
+         data['params'] = ['params'].append(contract.symbol.Lower() + "@" + channel)
+     data['id'] = self._ws_id
 
   
     try:
@@ -270,4 +273,4 @@ def start_ws(self):
                 
         
 
-     self.ws_id += 1
+     self._ws_id += 1
