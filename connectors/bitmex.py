@@ -44,11 +44,16 @@ class BitmexClient:
         logger.info("Bitmex Client successfully initialized")
         
         
-        def _generate_signature(self, method: str, endpoint):
+        def _generate_signature(self, method: str, endpoint: str, expires: str, data: Typing.Dict) -> str:
+            
+            message = method + endpoint
+
+            hmac.new(self._secret_key.encode(), message.encode())
 
 
 
- def _make_request(self, method: str, endpoint: str, expires: str, data: typing.Dict):
+ def _make_request(self, method: str, endpoint: str, data: typing.Dict):
+
 
          headers = dict()
          expires = str(int(time.time()) + 5)
