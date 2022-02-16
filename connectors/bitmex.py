@@ -42,26 +42,37 @@ class BitmexClient:
         t.start()
 
         logger.info("Bitmex Client successfully initialized")
+        
+        
+        def _generate_signature(self, method: str, endpoint):
 
 
 
- def _make_request(self, method: str, endpoint: str, data: typing.Dict):
+ def _make_request(self, method: str, endpoint: str, expires: str, data: typing.Dict):
+
+         headers = dict()
+         expires = str(int(time.time()) + 5)
+         headers['api_expires'] = expires
+         headers['api-key'] = self._public_key
+         headers['api-signature'] = self._generate_signature()
+
+
         if method == "GET":
             try:
-                response = requests.get(self._base_url + endpoint, params=data, headers=self._headers)
+                response = requests.get(self._base_url + endpoint, params=data, headers=headers)
             except Exeception as e:
                 logger.error("Connection error while making % request to %: %", method, endpoint, e) 
                 return None   
         elif method == "POST":
             try:
-                response = requests.post(self._base_url + endpoint, params=data, headers=self._headers)
+                response = requests.post(self._base_url + endpoint, params=data, headers=headers)
             except Exception as e:
                 logger.error("Connection error while making % request to %: %", method, endpoint, e)
                 return None 
                  
         elif method == "DELETE":
             try:
-                response = requests.delete(self.base_url + endpoint, params=data, headers=self.headers)
+                response = requests.delete(self.base_url + endpoint, params=data, headers=headers)
             Except Exception as e: 
             logger.error("Connection error while making % request to %: %", method, endpoint, e)
             return None  
