@@ -46,9 +46,9 @@ class BitmexClient:
         
         def _generate_signature(self, method: str, endpoint: str, expires: str, data: Typing.Dict) -> str:
             
-            message = method + endpoint
+            message = method + endpoint + "?" + urlencode(data) + expires if len(data) > 0 else method + endpoint + expires
 
-            hmac.new(self._secret_key.encode(), message.encode())
+            return hmac.new(self._secret_key.encode(), message.encode(), hashlib.sha256).hexdigest()
 
 
 
@@ -59,7 +59,7 @@ class BitmexClient:
          expires = str(int(time.time()) + 5)
          headers['api_expires'] = expires
          headers['api-key'] = self._public_key
-         headers['api-signature'] = self._generate_signature()
+         headers['api-signature'] = self._generate_signature(method, edpoint, exipres data)
 
 
         if method == "GET":
@@ -93,5 +93,11 @@ class BitmexClient:
  
           
 
-            return None                   
+            return None
+
+
+
+    def get_contracts(self): -> typing.Dict[str, Contract]:
+
+        instruments = self._make_request("GET", "/api/v1/instrument/active", dict())                      
 
