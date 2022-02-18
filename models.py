@@ -19,12 +19,22 @@ class Candle:
 
 
 class Contract:
-    def __init__(self, contract_info):
+    def __init__(self, contract_info, exchange):
+     if exchange == "binance":
         self.symbol = contract_info['symbol']
         self.base_asset = contract_info['baseAsset']
         self.quote_asset = contract_info['quoteAsset']
-        self.price_decimals = contract_info['pricePrecisoon']
+        self.price_decimals = contract_info['pricePrecison']
         self.quantity_decimals = contract_info['quantityPrecision']
+     
+     
+     elif: exchange == "bitmex":
+         self.symbol = contract_info['symbol']
+        self.base_asset = contract_info['rootSymbol']
+        self.quote_asset = contract_info['quoteCurrency']
+        self.price_decimals = contract_info['tickSize']
+        self.quantity_decimals = contract_info['lotSize']   
+
 
 class OrderStatus:
     def __init__(self, order_info):

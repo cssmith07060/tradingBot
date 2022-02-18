@@ -22,7 +22,7 @@ class BitmexClient:
 
 
         if testnet:
-            self._base_url = "https://testnet.bitmex.com"
+            self._base_url = "https://testnet.bitmex.com/api/v1"
             self._wss_url = "wss:testnet.bitmex.com/reltime"
         else:
             self._base_url = "https://www.bitmex.com/"
@@ -99,5 +99,11 @@ class BitmexClient:
 
     def get_contracts(self): -> typing.Dict[str, Contract]:
 
-        instruments = self._make_request("GET", "/api/v1/instrument/active", dict())                      
+        instruments = self._make_request("GET", "/api/v1/instrument/active", dict())
+
+        contracts = dict()
+
+        if insturments is not None: 
+            for s in instruments: 
+                contracts[s['symbol']] = Contract(s)                    
 
