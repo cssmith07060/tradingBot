@@ -1,10 +1,19 @@
 class Balance:
-    def __init__(self,info):
+    def __init__(self,info, exchange):
+     if exchange == "binance":
         self.inital_margin = float(info['initialMargin'])
         self.maintenance_margin = float(info['mainMargin'])
         self.margin_balance = float(info['marginBlance'])
         self.wallet_balance = float(info['walletBalance'])
         self.unrealized_pnl = float(info['unrealizedProfit'])
+      
+      elif exchange == "bitmex":
+          self.inital_margin = info['initialMargin']
+          self.maintenance_margin = info['mainMargin']
+          self.margin_balance = info['marginBlance']
+          self.wallet_balance = info['walletBalance']
+          self.unrealized_pnl = info['unrealizedProfit']
+
 
 
 

@@ -111,5 +111,11 @@ class BitmexClient:
         data = dict()
         data ['currency'] = "all"
 
-        margin_data = self._make_request("Get", "/api/v1:")                               
+        margin_data = self._make_request("Get", "/api/v1/margin",data)
+
+        balances = dict()
+
+        if margin_data is not None:
+            for a in margin_data:
+                balances[a['currency']] = Balance(a, "bitmex")                               
 
