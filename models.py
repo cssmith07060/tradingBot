@@ -1,3 +1,6 @@
+
+BITMEX_MULTIPLIER = 0.00000001
+
 class Balance:
     def __init__(self,info, exchange):
      if exchange == "binance":
@@ -8,11 +11,11 @@ class Balance:
         self.unrealized_pnl = float(info['unrealizedProfit'])
       
       elif exchange == "bitmex":
-          self.inital_margin = info['initialMargin']
-          self.maintenance_margin = info['mainMargin']
-          self.margin_balance = info['marginBlance']
-          self.wallet_balance = info['walletBalance']
-          self.unrealized_pnl = info['unrealizedProfit']
+          self.inital_margin = info['initMargin'] * BITMEX_MULTIPLIER
+          self.maintenance_margin = info['maintMargin'] * BITMEX_MULTIPLIER
+          self.margin_balance = info['marginBlance'] * BITMEX_MULTIPLIER
+          self.wallet_balance = info['walletBalance'] * BITMEX_MULTIPLIER
+          self.unrealized_pnl = info['unrealisedPnl']* BITMEX_MULTIPLIER
 
 
 

@@ -38,8 +38,8 @@ class BitmexClient:
 
         self.prices = dict() 
 
-        t = threading.Thread(target=self._start_ws)
-        t.start()
+       # t = threading.Thread(target=self._start_ws)
+       # t.start()
 
         logger.info("Bitmex Client successfully initialized")
         
@@ -107,6 +107,8 @@ class BitmexClient:
             for s in instruments: 
                 contracts[s['symbol']] = Contract(s, "bitmex")
 
+        return contrscts        
+
     def get_balances(self) -> typing.Dict[str, Balance]:
         data = dict()
         data ['currency'] = "all"
@@ -117,5 +119,7 @@ class BitmexClient:
 
         if margin_data is not None:
             for a in margin_data:
-                balances[a['currency']] = Balance(a, "bitmex")                               
+                balances[a['currency']] = Balance(a, "bitmex")
+
+        return balances                                       
 

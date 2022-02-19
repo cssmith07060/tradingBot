@@ -33,6 +33,8 @@ if __name__ == '__main__':
 
     bitmex = BitmexClient("uXr1711wD-3pvEpXjlkNFx", "GEIkARqi2QZh7OV77T28M2Y0zxSBh_rNGhRJIbwZAIqYCkYu", True)
 
+print(bitmex.contracts['XBTUSD'].base_asset, bitmex.contracts['XBTUSD'].price_decimals)
+print(bitmex.balances['Xbt'].wallet_balance)
 
 root = tk.Tk()
 root.mainloop()
