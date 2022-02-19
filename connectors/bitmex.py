@@ -105,5 +105,11 @@ class BitmexClient:
 
         if insturments is not None: 
             for s in instruments: 
-                contracts[s['symbol']] = Contract(s)                    
+                contracts[s['symbol']] = Contract(s, "bitmex")
+
+    def get_balances(self) -> typing.Dict[str, Balance]:
+        data = dict()
+        data ['currency'] = "all"
+
+        margin_data = self._make_request("Get", "/api/v1:")                               
 
