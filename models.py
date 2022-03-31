@@ -15,20 +15,28 @@ class Balance:
           self.maintenance_margin = info['maintMargin'] * BITMEX_MULTIPLIER
           self.margin_balance = info['marginBlance'] * BITMEX_MULTIPLIER
           self.wallet_balance = info['walletBalance'] * BITMEX_MULTIPLIER
-          self.unrealized_pnl = info['unrealisedPnl']* BITMEX_MULTIPLIER
+          self.unrealized_pnl = info['unrealizedPnl']* BITMEX_MULTIPLIER
 
 
 
 
 class Candle:
-    def __init__(self, candle_info):
+     def __init__(self, candle_info, exchange):
+       if exchange == "binance":
         self.timestamp = candle_info[0]
         self.open = float(candle_info [1])
         self.high = float(candle_info [2])
         self.low = float(candle_info [3])
         self.close = float(candle_info [4])
         self.volume = float(candle_info [5])
-
+     elif exchange == "bitmex":
+        self.timestamp = candle_info['timestamp']
+        self.open = (candle_info ['open'])
+        self.high = (candle_info ['high'])
+        self.low = (candle_info ['low'])
+        self.close = (candle_info ['close'])
+        self.volume = (candle_info ['volume'])
+           
 
 class Contract:
     def __init__(self, contract_info, exchange):

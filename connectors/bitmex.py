@@ -123,3 +123,20 @@ class BitmexClient:
 
         return balances                                       
 
+    def get_historical_candles(self, contract: Contract, timeframe: str) -> typing.List[Candle]:
+        data = dict()
+
+        data['symbol'] contract.symbol
+
+        data['symbol'] = contract.symbol
+        data ['partial'] = True
+        data ['binsize'] = timeframe
+        data ['count'] = 500
+
+        raw_candles = self._make_request("GEt", "/api/v1/trade/bucketed", data)
+
+        candles = []
+
+        if raw_candles is not None:
+            for c in raw_candles:
+                candles.append(Candle(c, "bitmex"))
