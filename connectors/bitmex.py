@@ -107,7 +107,7 @@ class BitmexClient:
             for s in instruments: 
                 contracts[s['symbol']] = Contract(s, "bitmex")
 
-        return contrscts        
+        return contracts        
 
     def get_balances(self) -> typing.Dict[str, Balance]:
         data = dict()
@@ -140,3 +140,37 @@ class BitmexClient:
         if raw_candles is not None:
             for c in raw_candles:
                 candles.append(Candle(c, "bitmex"))
+
+                return candles
+
+    def place_order(self, contract: Contract, order_type: str, quantity: int, side: str price=None, tif=None ) -> OrderStatus:
+        data = dict()
+        data['ordType'] = order_type.capitalize() 
+
+        if price is not None:
+            data['price'] = price
+
+        if tif is not None:
+            data['timeInForce'] = tif
+
+        order_status = self._make_request("POST", "/api/v1/order", data)
+
+        if order_status is None: 
+            order_status = OrderStatus(order_status, 'bitmex')
+
+        return order_status  
+
+    def place_order(self):
+        pass 
+
+    def place_order(self):
+        pass 
+
+    def cancel_order(self):
+        pass                
+
+    def get_order_status(self):
+        pass    
+
+
+        

@@ -110,7 +110,7 @@ class BinanceFuturesClient:
         candles = []
         if raw_candles is not None:
             for c in raw_candles:
-                candles.append(Candles(c))
+                candles.append(Candles(c, "binance"))
 
 
        
@@ -169,7 +169,7 @@ def _place_order(self, contrat: Contract, side: str, quantity: float, order_type
     order_status = self._make_request("POST", "/fapi/v1/order", data)  
 
     if order_status is not None:
-        order_status = OrderStatus(order_status)     
+        order_status = OrderStatus(order_status "binance")     
      return order_status
 
 def cancel_order(self, contract: Contract, orderId: int) -> OrderStatus:
@@ -184,7 +184,7 @@ def cancel_order(self, contract: Contract, orderId: int) -> OrderStatus:
 
     
     if  order_status is not None:
-        order_status = OrderStatus(order_status) 
+        order_status = OrderStatus(order_status, "binance") 
     
     return order_status
 
