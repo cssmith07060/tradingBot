@@ -197,16 +197,16 @@ class BitmexClient:
     
 
 
-     if "e" in data:
+     if "table" in data:
           if data['table']  == "instrument":
               
               for d in d['data']:
 
-              symbol = data['symbol']
+              symbol = d['symbol']
 
 
               if symbol not in self.prices:
-                    self.prices[symbol] = {'bid': None, 'ask': None)}
+                    self.prices[symbol] = {'bid': None, 'ask': None}
 
               if 'bidPrice' in d:
                 self.prices[symbol]['bid'] = d['bidPrice']     

@@ -1,5 +1,10 @@
+import dateutil.parser
+import daytime
+
+
 
 BITMEX_MULTIPLIER = 0.00000001
+BITMEX_TF_MINUTES = {"1m": 1, "5m": 5, "1h": 60, "1d": 1440}
 
 class Balance:
     def __init__(self,info, exchange):
@@ -21,7 +26,7 @@ class Balance:
 
 
 class Candle:
-     def __init__(self, candle_info, exchange):
+     def __init__(self, candle_info, timeframe, exchange):
        if exchange == "binance":
         self.timestamp = candle_info[0]
         self.open = float(candle_info [1])
@@ -29,8 +34,11 @@ class Candle:
         self.low = float(candle_info [3])
         self.close = float(candle_info [4])
         self.volume = float(candle_info [5])
+     
      elif exchange == "bitmex":
-        self.timestamp = candle_info['timestamp']
+        self.timestamp = dateutil.parser.isoparse(candle_info['timestamp'])
+        self.timestamp = self.timestamp - dateime.timedelta(minutes=)
+        self.timestamp = int(self.timestamp.timestamp() *1000)
         self.open = (candle_info ['open'])
         self.high = (candle_info ['high'])
         self.low = (candle_info ['low'])
