@@ -132,6 +132,7 @@ class BitmexClient:
         data ['partial'] = True
         data ['binsize'] = timeframe
         data ['count'] = 500
+        data ['reverse'] = True
 
         raw_candles = self._make_request("GEt", "/api/v1/trade/bucketed", data)
 
@@ -139,7 +140,7 @@ class BitmexClient:
 
         if raw_candles is not None:
             for c in raw_candles:
-                candles.append(Candle(c, "bitmex"))
+                candles.append(Candle(c, timeframe "bitmex"))
 
                 return candles
 
@@ -148,17 +149,18 @@ class BitmexClient:
         
         data ['symbol'] = contract.symbol
         data ['side'] = "Buy" "Sell"
+        data['orderQty'] = quantity
         data['ordType'] = order_type.capitalize() 
 
         if price is not None:
-            data['price'] = price
+            data['price'] = round(price / contract.tick_size) * contract.tick_size
 
         if tif is not None:
             data['timeInForce'] = tif
 
         order_status = self._make_request("POST", "/api/v1/order", data)
 
-        if order_status is None:
+        if order_status is not None:
             for order in order_status:
                 if order['orderId'] == order_id: 
                     return OrderStatus(order, 'bitmex')

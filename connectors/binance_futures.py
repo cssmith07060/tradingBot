@@ -110,7 +110,7 @@ class BinanceFuturesClient:
         candles = []
         if raw_candles is not None:
             for c in raw_candles:
-                candles.append(Candles(c, "binance"))
+                candles.append(Candles(c, interval, "binance"))
 
 
        
@@ -153,11 +153,11 @@ def _place_order(self, contrat: Contract, side: str, quantity: float, order_type
     data = ditc()
     data['symbol'] = cotract.symbol
     data['side'] = side 
-    data['quantity'] = quantity
+    data['quantity'] = quantity = round(price / contract.lot_size) * contract.lot_size
     data['type'] = order_type
 
     if price is not None:
-        data['price'] = price
+        data['price'] = round(price / contract.tick_size) * contract.tick_size
 
     if tif_is not None:
         data['timeInForce'] = tif
