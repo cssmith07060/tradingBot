@@ -10,7 +10,8 @@ class Root:
         
         self.configure(bg=BG)
         
-        pack()
+        self.left_frame = tk.frame(self, bg=BG_COLOR)
+        self.left_frame.pack()
         
         
     
