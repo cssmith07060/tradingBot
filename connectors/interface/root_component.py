@@ -11,7 +11,13 @@ class Root:
         self.configure(bg=BG)
         
         self.left_frame = tk.frame(self, bg=BG_COLOR)
-        self.left_frame.pack()
+        self.left_frame.pack(side=tk.LEFT)
+        
+        
+         self.right_frame = tk.frame(self, bg=BG_COLOR)
+        self.right_frame.pack(side=tk.LEFT)
+        
+        
         
         
     
