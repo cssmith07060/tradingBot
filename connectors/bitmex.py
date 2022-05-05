@@ -153,7 +153,7 @@ class BitmexClient:
         data['ordType'] = order_type.capitalize() 
 
         if price is not None:
-            data['price'] = round(price / contract.tick_size) * contract.tick_size
+            data['price'] = round(round(price / contract.tick_size) * contract.tick_size, 8)
 
         if tif is not None:
             data['timeInForce'] = tif

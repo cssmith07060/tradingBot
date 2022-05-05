@@ -153,11 +153,11 @@ def _place_order(self, contrat: Contract, side: str, quantity: float, order_type
     data = ditc()
     data['symbol'] = cotract.symbol
     data['side'] = side 
-    data['quantity'] = quantity = round(price / contract.lot_size) * contract.lot_size
+    data['quantity'] = quantity = round(round(price / contract.lot_size) * contract.lot_size, 8)
     data['type'] = order_type
 
     if price is not None:
-        data['price'] = round(price / contract.tick_size) * contract.tick_size
+        data['price'] = round(round(price / contract.tick_size) * contract.tick_size, 8)
 
     if tif_is not None:
         data['timeInForce'] = tif
