@@ -14,8 +14,11 @@ class Root:
         self.left_frame.pack(side=tk.LEFT)
         
         
-         self.right_frame = tk.frame(self, bg=BG_COLOR)
+        self.right_frame = tk.frame(self, bg=BG_COLOR)
         self.right_frame.pack(side=tk.LEFT)
+        
+        self._logging_frame = Logging(self._left_frame, )
+        self._logging_frame.pack(side=tk.TOP)
         
         
         
