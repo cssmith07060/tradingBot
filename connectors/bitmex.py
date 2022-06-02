@@ -19,6 +19,8 @@ logger = logging.getLogger()
 
 class BitmexClient:
     def __init__(self, public_key: str, secret_key: str, testnet: bool):
+        
+        self.root
 
 
         if testnet:
@@ -37,14 +39,19 @@ class BitmexClient:
         self.balances = self.get_balnces()
 
         self.prices = dict() 
+        self.logs = []
 
        # t = threading.Thread(target=self._start_ws)
        # t.start()
 
         logger.info("Bitmex Client successfully initialized")
         
+    def _add_log(self,msg):
+        logger.info("%s", msg)
+        self.logs.append({"logs": msg, "displayed": False})
         
-        def _generate_signature(self, method: str, endpoint: str, expires: str, data: Typing.Dict) -> str:
+        
+    def _generate_signature(self, method: str, endpoint: str, expires: str, data: Typing.Dict) -> str:
             
             message = method + endpoint + "?" + urlencode(data) + expires if len(data) > 0 else method + endpoint + expires
 
@@ -52,7 +59,7 @@ class BitmexClient:
 
 
 
- def _make_request(self, method: str, endpoint: str, data: typing.Dict):
+    def _make_request(self, method: str, endpoint: str, data: typing.Dict):
 
 
          headers = dict()
@@ -213,8 +220,7 @@ class BitmexClient:
               if 'bidPrice' in d:
                 self.prices[symbol]['bid'] = d['bidPrice']     
               if 'askPrice' in d:
-                    self.prices[symbol]['ask'] = d['askPrice']  
-
+                    self.prices[symbol]['ask'] = d['askPrice']        
                
 
 
