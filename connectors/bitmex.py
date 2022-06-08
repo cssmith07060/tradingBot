@@ -41,12 +41,12 @@ class BitmexClient:
         self.prices = dict() 
         self.logs = []
 
-       # t = threading.Thread(target=self._start_ws)
-       # t.start()
+        t = threading.Thread(target=self._start_ws)
+        t.start()
 
         logger.info("Bitmex Client successfully initialized")
         
-    def _add_log(self,msg):
+    def _add_log(self,msg; str):
         logger.info("%s", msg)
         self.logs.append({"logs": msg, "displayed": False})
         
@@ -220,7 +220,11 @@ class BitmexClient:
               if 'bidPrice' in d:
                 self.prices[symbol]['bid'] = d['bidPrice']     
               if 'askPrice' in d:
-                    self.prices[symbol]['ask'] = d['askPrice']        
+                    self.prices[symbol]['ask'] = d['askPrice']
+                    
+               if symbol == "XBTUS:
+                   self._add_log(symbol + " " + str(self.prices[symbol]['bid'] + " / " + 
+                                                   str(self.prices[symbol]['ask'])))           
                
 
 
