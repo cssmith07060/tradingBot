@@ -223,7 +223,7 @@ class BitmexClient:
                     self.prices[symbol]['ask'] = d['askPrice']
                     
                if symbol == "XBTUS:
-                   self._add_log(symbol + " " + str(self.prices[symbol]['bid'] + " / " + 
+                   self._add_log(symbol + " " + str(self.prices[symbol]['bid']) + " / " + 
                                                    str(self.prices[symbol]['ask'])))           
                
 
