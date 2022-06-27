@@ -20,7 +20,7 @@ logger = logging.getLogger()
 class BitmexClient:
     def __init__(self, public_key: str, secret_key: str, testnet: bool):
         
-        self.root
+        self.root = root
 
 
         if testnet:
@@ -46,9 +46,9 @@ class BitmexClient:
 
         logger.info("Bitmex Client successfully initialized")
         
-    def _add_log(self,msg; str):
+    def _add_log(self,msg: str):
         logger.info("%s", msg)
-        self.logs.append({"logs": msg, "displayed": False})
+        self.logs.append({"log": msg, "displayed": False})    
         
         
     def _generate_signature(self, method: str, endpoint: str, expires: str, data: Typing.Dict) -> str:
@@ -222,12 +222,10 @@ class BitmexClient:
               if 'askPrice' in d:
                     self.prices[symbol]['ask'] = d['askPrice']
                     
-               if symbol == "XBTUS:
+              if symbol == "XBTUSD:
                    self._add_log(symbol + " " + str(self.prices[symbol]['bid']) + " / " + 
-                                                   str(self.prices[symbol]['ask'])))           
+                                                   str(self.prices[symbol]['ask'])))                                        
                
-
-
  def subscribe_channel(self, topic: str):
      data= dict()    
      data['op'] = "subscribe"

@@ -26,23 +26,9 @@ class Root(tk.Tk):
         self._logging_frame = Logging(self._left_frame, )
         self._logging_frame.pack(side=tk.TOP)
         
-        self._update_ui()
+    def _update_ui(self): 
         
-    def _update_ui(self):
-        
-        for log in self.bitmex.logs:
-            if not log['displayed']: 
-                self._logging_frame.add_log(log['log'])
-                log['displayed'] = True   
-                
-                
-        for log in self.binance.logs:
-            if not log['displayed']: 
-              self._logging_frame.add_log(log['log'])
-              log['displayed'] = True 
-              
-        self.after(1500, self._update_ui)                
-        
+        for log in self.bitmex.logs  
         
         
         
