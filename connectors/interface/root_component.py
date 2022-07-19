@@ -28,7 +28,14 @@ class Root(tk.Tk):
         
     def _update_ui(self): 
         
-        for log in self.bitmex.logs  
+        for log in self.bitmex.logs:
+            if not log['displayed']:
+                self._logging_frame.add_log(log['log'])
+                log['displayed']
+        
+        for log in self.binance.logs:
+            if not log['displayed']:
+                self._logging_frame.add_log(log['log'])
         
         
         
