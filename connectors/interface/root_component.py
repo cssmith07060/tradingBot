@@ -4,6 +4,8 @@ from connectors.bitmex import BitmexClient
 from conectors.binance-futures import BinanceFuturesClient
 
 from interface.styiling import *
+from interface.logging_component import Logging
+from interface.watchlist_component import Watchlist 
 
 
 class Root(tk.Tk):
@@ -16,17 +18,21 @@ class Root(tk.Tk):
         
         self.configure(bg=BG)
         
-        self.left_frame = tk.frame(self, bg=BG_COLOR)
-        self.left_frame.pack(side=tk.LEFT)
+        self.watchlist_frame = Watchlist(self, bg=BG_COLOR)
+        self.watchlist_frame.pack(side=tk.TOP)
         
         
         self.right_frame = tk.frame(self, bg=BG_COLOR)
         self.right_frame.pack(side=tk.LEFT)
+         
+         self._logging_frame = Logging(self._left_frame, )
+        self._logging_frame.pack(side=tk.TOP)
         
         self._logging_frame = Logging(self._left_frame, )
         self._logging_frame.pack(side=tk.TOP)
         
-        self._update()
+        self._update_ui()
+        
         
     def _update_ui(self): 
         
