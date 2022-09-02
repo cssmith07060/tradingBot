@@ -18,7 +18,7 @@ class Root(tk.Tk):
         
         self.configure(bg=BG)
         
-        self.watchlist_frame = Watchlist(self, bg=BG_COLOR)
+        self.watchlist_frame = Watchlist(self.binance.contracts,self.bitmex.contracts, self._left_frame, bg=BG_COLOR)
         self.watchlist_frame.pack(side=tk.TOP)
         
         
