@@ -40,6 +40,14 @@ class Watchlist(tk.frame):
             header = tk.Label(self._table_frame, text=h.capitalize(), bg=BG_COLOR, fg=FG_COLOR, font=BOLD_FONT)
             header.grid(row=0, column=idx)
             
+        for h in self._headers:
+            self.body_wigets[h] = dict()
+            if h in["bid", "ask"]:
+                self.body_widgets[h + "_var"] = dict()
+                 
+            
+        self._body_index = 1       
+            
             
 def _add_binance_symbol(self, event):
    symbol = event.wiget.get()
@@ -55,6 +63,30 @@ def _add_bitmex_symbol(self, event):
      self._add_symbol(symbol, "Bitmex")
      event.wiget.delete(0, tk.END) 
    
-def _add_symbol(self, symbol: str, exchange: str):   
+def _add_symbol(self, symbol: str, exchange: str): 
     
-    return                
+    b_index = self._body_index  
+    
+self.body_wigets['symbol'] [b_index] = tk.Label(self._table_frame, text=symbol, bg=BG-COLOR, fg=FG_COLOR_2, font=GLOBAL_FONT)
+
+self.body_wigets['symbol'] [b_index].grid(row=b_index, column=0)
+
+self.body_wigets['exchange'] [b_index] = tk.Label(self._table_frame, text=exchange, bg=BG-COLOR, fg=FG_COLOR_2, font=GLOBAL_FONT)
+ 
+self.body_wigets['exchange'] [b_index].grid(row=b_index, column=1)
+
+self.body_wigets['bid_var'] [b_index] = tk.StringVar()
+self.body_wigets['bid'] [b_index] = tk.Label(self._table_frame, textvariable=self.body_widgets['bid_var'], bg=BG-COLOR, fg=FG_COLOR_2, font=GLOBAL_FONT)
+ 
+self.body_wigets['bid'] [b_index].grid(row=b_index, column=2)
+
+self.body_wigets['ask_var'] [b_index] = tk.StringVar() 
+self.body_wigets['ask'] [b_index] = tk.Label(self._table_frame, textvariable=self.body_widgets['ask_var'], bg=BG-COLOR, fg=FG_COLOR_2, font=GLOBAL_FONT)
+ 
+self.body_wigets['ask'] [b_index].grid(row=b_index, column=3)
+ 
+self._bodyindex += 1
+ 
+   
+    
+               
