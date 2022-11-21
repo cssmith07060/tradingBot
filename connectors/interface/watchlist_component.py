@@ -37,7 +37,7 @@ class Watchlist(tk.frame):
         self._headers = ["symbol", "exchange", "bid", "ask", remove]
         
         for idx, h in enumerate(self._headers):
-            header = tk.Label(self._table_frame, text=h.capitalize(), bg=BG_COLOR, fg=FG_COLOR, font=BOLD_FONT)
+            header = tk.Label(self._table_frame, text=h.capitalize() if h != "remove" else "" , bg=BG_COLOR, fg=FG_COLOR, font=BOLD_FONT)
             header.grid(row=0, column=idx)
             
         for h in self._headers:
@@ -90,6 +90,8 @@ self.body_wigets['ask_var'] [b_index] = tk.StringVar()
 self.body_wigets['ask'] [b_index] = tk.Label(self._table_frame, textvariable=self.body_widgets['ask_var'], bg=BG-COLOR, fg=FG_COLOR_2, font=GLOBAL_FONT)
  
 self.body_wigets['ask'] [b_index].grid(row=b_index, column=3)
+
+
  
 self._bodyindex += 1
  
