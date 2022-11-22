@@ -91,6 +91,11 @@ self.body_wigets['ask'] [b_index] = tk.Label(self._table_frame, textvariable=sel
  
 self.body_wigets['ask'] [b_index].grid(row=b_index, column=3)
 
+self.body_wigets['ask_var'] [b_index] = tk.StringVar() 
+self.body_wigets['ask'] [b_index] = tk.Label(self._table_frame, textvariable=self.body_widgets['ask_var'], bg="darkred", fg=FG_COLOR, font=GLOBAL_FONT, command=lamda: self._remove_symbol(b_index))
+ 
+self.body_wigets['ask'] [b_index].grid(row=b_index, column=4)
+
 
  
 self._bodyindex += 1
