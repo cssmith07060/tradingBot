@@ -44,6 +44,8 @@ class Watchlist(tk.frame):
             self.body_wigets[h] = dict()
             if h in["bid", "ask"]:
                 self.body_widgets[h + "_var"] = dict()
+                
+        self._headers = ["symbol", "exchange", "bid", "ask", "remove"]         
                  
             
         self._body_index = 1  
