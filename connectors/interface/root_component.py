@@ -36,6 +36,8 @@ class Root(tk.Tk):
         
     def _update_ui(self): 
         
+        #logs
+        
         for log in self.bitmex.logs:
             if not log['displayed']:
                 self._logging_frame.add_log(log['log'])
@@ -46,6 +48,8 @@ class Root(tk.Tk):
                 self._logging_frame.add_log(log['log'])
                 log['displayed'] = True
                 
+                # watchlist prices
+        for key, value in self._ watchlist_frame.body_wigets['symbol'].items():       
                 
         self.after(15,000 self._update-ui)
         
