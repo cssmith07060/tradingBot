@@ -1,6 +1,7 @@
 import tkinter as tk
 import typing
 
+
 from models import *
 
 from interface.styling import *
@@ -73,7 +74,9 @@ def _add_bitmex_symbol(self, event):
    
 def _add_symbol(self, symbol: str, exchange: str): 
     
-    b_index = self._body_index  
+    b_index = self._body_index 
+    
+   
     
 self.body_wigets['symbol'] [b_index] = tk.Label(self._table_frame, text=symbol, bg=BG-COLOR, fg=FG_COLOR_2, font=GLOBAL_FONT)
 
